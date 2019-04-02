@@ -14,7 +14,7 @@
             <h4 class="mb-3">Create Task Robots</h4>
             <form class="needs-validation" novalidate>
                 <div class="row">
-                    <div class="col-md-4 mb-4">
+                    <div class="col-md-3 mb-3">
                         <label for="typeTask">Type Task</label>
                         <select class="custom-select d-block w-100" id="typeTask" required>
                             <option>build</option>
@@ -24,7 +24,7 @@
                             Please select a valid typeTask.
                         </div>
                     </div>
-                    <div class="col-md-4 mb-4">
+                    <div class="col-md-3 mb-3">
                         <label for="numberOfStepsInTheJob">Number Of Steps In The Job</label>
                         <input type="number" class="form-control" id="numberOfStepsInTheJob"
                                placeholder="numberOfStepsInTheJob" required>
@@ -32,7 +32,7 @@
                             numberOfStepsInTheJob.
                         </div>
                     </div>
-                    <div class="col-md-4 mb-4">
+                    <div class="col-md-3 mb-3">
                         <label for="timeForOneStep">Time For One Step</label>
                         <input type="number" class="form-control" id="timeForOneStep" placeholder="timeForOneStep"
                                required>
@@ -40,14 +40,14 @@
                             timeForOneStep.
                         </div>
                     </div>
-                   <!-- <div class="col-md-3 mb-3">
+                    <div class="col-md-3 mb-3">
                         <label for="taskPerformer">taskPerformer</label>
-                        <input type="number" class="form-control" id="taskPerformer" placeholder="taskPerformer"
+                        <input type="number" value="-1" class="form-control" id="taskPerformer" placeholder="taskPerformer"
                                required>
                         <div class="invalid-feedback">
                             taskPerformer.
                         </div>
-                    </div>-->
+                    </div>
                 </div>
                 <hr class="mb-4">
                 <a class="btn btn-outline-secondary btn-sm btn-block" id="sendJob">Send task to queue</a>

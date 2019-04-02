@@ -14,6 +14,8 @@ import java.util.*;
 @Component
 public class ActivityTracker {
     @Autowired
+    RobotWorkLog robotWorkLog;
+    @Autowired
     private WebSocketEventSender webSocketEventSender;
 
     private List<RobotInterface> robotList;
@@ -22,27 +24,44 @@ public class ActivityTracker {
         if (task.getTypeTask().equals("kill")) {
             int idRobot = task.getTaskPerformer();
             for (RobotInterface robot : robotList) {
-                if (robot.getIdRobot()==idRobot) {
+                if (robot.getIdRobot() == idRobot) {
                     killRobot(robot);
                     robotList.remove(robot);
+                    robotWorkLog.setContent("robot killed by id : " + idRobot);
+                    webSocketEventSender.sendLogToWebUI(robotWorkLog);
+
                     break;
                 }
             }
         } else {
-            if (robotList == null || robotList.size() == 0) {
-                robotList = new ArrayList<>();
-                robotList.add(switchRobot(task, getIdRobot()));
-            } else {
-                boolean taskTransferredToRobot = false;
-                for (RobotInterface robot : robotList) {
-                    if (robot.checkJob(task.getTypeTask()) && robot.numberOfJobsInQueue() < 2) {
-                        robot.addTaskToQueue(task);
-                        taskTransferredToRobot = true;
-                        break;
+            if (task.getTaskPerformer() == -1) {
+                if (robotList == null || robotList.size() == 0) {
+                    robotList = new ArrayList<>();
+                    robotList.add(switchRobot(task, getIdRobot()));
+                } else {
+                    boolean taskTransferredToRobot = false;
+                    for (RobotInterface robot : robotList) {
+                        if (robot.checkJob(task.getTypeTask()) && robot.numberOfJobsInQueue() < 2) {
+                            robot.addTaskToQueue(task);
+                            taskTransferredToRobot = true;
+                            break;
+                        }
+                    }
+                    if (taskTransferredToRobot == false) {
+                        robotList.add(switchRobot(task, getIdRobot()));
                     }
                 }
-                if (taskTransferredToRobot == false) {
-                    robotList.add(switchRobot(task, getIdRobot()));
+            } else {
+                try {
+                    for (RobotInterface robot : robotList) {
+                        if (robot.getIdRobot() == task.getTaskPerformer()) {
+                            robot.addTaskToQueue(task);
+                            break;
+                        }
+                    }
+                } catch (NullPointerException e) {
+                    robotWorkLog.setContent("robot id does not exist : " + task.getTaskPerformer());
+                    webSocketEventSender.sendLogToWebUI(robotWorkLog);
                 }
             }
         }
@@ -54,20 +73,18 @@ public class ActivityTracker {
 
     private void killRobot(RobotInterface robotInterface) {
         Queue<Task> jobQueue = robotInterface.getJobQueue();
-        for (int i = 0; i <= jobQueue.size(); i++) {
+        for (int i = 0; i < jobQueue.size(); i++) {
             try {
                 Task taskTemp = jobQueue.poll();
                 taskDistribution(taskTemp);
             } catch (NullPointerException e) {
                 break;
             }
-
         }
         robotInterface.killRobot();
     }
 
     private RobotInterface switchRobot(Task task, Integer idRobot) {
-        RobotWorkLog robotWorkLog = new RobotWorkLog();
         switch (task.getTypeTask()) {
             case "dig":
                 robotWorkLog.setContent("create robot Digger id : " + idRobot);

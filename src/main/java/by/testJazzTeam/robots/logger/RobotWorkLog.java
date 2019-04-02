@@ -1,5 +1,8 @@
 package by.testJazzTeam.robots.logger;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class RobotWorkLog {
 
     public void setContent(String content) {
