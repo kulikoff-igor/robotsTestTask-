@@ -8,7 +8,6 @@ $(document).ready(function () {
         task.numberOfStepsInTheJob = $("#numberOfStepsInTheJob").val();
         task.timeForOneStep = $("#timeForOneStep").val();
         task.taskPerformer = $("#taskPerformer").val();
-        //task.taskPerformer = 0;
         if (task.typeTask === "" || task.numberOfStepsInTheJob === "" || task.timeForOneStep === "") {
 
         } else {

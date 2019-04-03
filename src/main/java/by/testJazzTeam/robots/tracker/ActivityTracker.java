@@ -1,6 +1,7 @@
 package by.testJazzTeam.robots.tracker;
 
 import by.testJazzTeam.robots.Robots.RobotBuilder;
+import by.testJazzTeam.robots.Robots.RobotDestroyer;
 import by.testJazzTeam.robots.Robots.RobotDigger;
 import by.testJazzTeam.robots.Robots.RobotInterface;
 import by.testJazzTeam.robots.logger.RobotWorkLog;
@@ -94,6 +95,10 @@ public class ActivityTracker {
                 robotWorkLog.setContent("create robot Builder id : " + idRobot);
                 webSocketEventSender.sendLogToWebUI(robotWorkLog);
                 return new RobotBuilder(idRobot, task, webSocketEventSender);
+            case "destroy":
+                robotWorkLog.setContent("create robot Destroyer id : " + idRobot);
+                webSocketEventSender.sendLogToWebUI(robotWorkLog);
+                return new RobotDestroyer(idRobot, task, webSocketEventSender);
             default:
                 return null;
         }
