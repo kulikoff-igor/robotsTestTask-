@@ -8,13 +8,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MainController {
-    @RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "/", "/index/" }, method = RequestMethod.GET)
     public String index() {
 
         return "index";
     }
-   /* @RequestMapping(value = "/1index", method = RequestMethod.GET)
-    public String index() {
-        return "index";
-    }*/
+
 }

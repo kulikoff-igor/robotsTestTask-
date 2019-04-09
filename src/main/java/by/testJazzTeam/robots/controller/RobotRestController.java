@@ -12,7 +12,7 @@ public class RobotRestController {
     @Autowired
     ActivityTracker activityTracker;
 
-    @PostMapping(value = "/addNewTask")
+    @PostMapping(value = "/createTaskRobots")
     @ResponseStatus(value = HttpStatus.OK)
     public void addNewTask(@RequestBody Task task) {
         activityTracker.taskDistribution(task);

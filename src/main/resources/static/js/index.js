@@ -45,7 +45,7 @@ function connect() {
 
 function sendJob(task) {
     $.ajax({
-        url: "api/addNewTask",
+        url: "api/createTaskRobots",
         type: "POST",
         dataType: "json",
         async: false,
